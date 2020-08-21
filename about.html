@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Mali&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .content {
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            right: 0;
+        }
+        .aboutme {
+            margin: 2rem;
+            font-family: 'Mali', cursive;
+        }
+    </style>
+</head>
+<body translate="no">
+<div class="content">
+    <h1 style="padding-left: 1rem;">About Me</h1>
+    <div class="aboutme">
+        <p>Hello, I'm Anvay.
+            <br/>
+            A Musician by heart & software programmer by profession.<br/>
+            I like investing my time into keeping knowledge of Computer Fundamentals strong.<br/>
+            I have my keen interests in learning programming languages & operating systems.<br/>
+            Please check out my blog & github projects.
+        </p>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/94/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+<script>
+    var camera;
+    var scene;
+    var renderer;
+
+    var cols = 100;
+    var rows = 100;
+
+    var particles = [];
+
+    function setup() {
+        camera = new THREE.PerspectiveCamera(
+            70,
+            window.innerWidth / window.innerHeight,
+            0.01,
+            100);
+
+        camera.position.z = 6;
+        camera.position.y = 6;
+
+        scene = new THREE.Scene();
+
+        var material = new THREE.SpriteMaterial({
+            color: 0x333333
+        });
+
+
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                let x = i - cols / 2;
+                let z = j - rows / 2;
+
+                let sprite = new THREE.Sprite(material);
+                sprite.position.set(x, 0, z);
+                sprite.position.set(x, 0, z);
+                // sprite.scale.set(0.1, 0.1, 0.1);
+                sprite.scale.set(0.0, 0.0, 0.0);
+                TweenMax.to(sprite.scale, (1 - j / rows) * 5.0 + 2.0, {
+                    x: 0.05,
+                    y: 0.05,
+                    z: 0.05
+                });
+
+
+                sprite.animationMax = 0.0;
+                TweenMax.to(sprite, (1 - i / cols) * 20.0, {
+                    animationMax: 1.0
+                });
+
+
+                scene.add(sprite);
+                particles.push(sprite);
+            }
+        }
+
+
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0xffffff);
+
+        document.body.appendChild(renderer.domElement);
+    }
+
+    var x = 0;
+
+    function draw() {
+        renderer.render(scene, camera);
+
+        x = x + 0.1;
+
+        var idx = 0;
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                let particle = particles[idx];
+
+                particle.position.y = (Math.sin((x + i) * 0.3) + Math.cos((x + j) * 0.3)) * particle.animationMax;
+
+                idx++;
+            }
+        }
+
+        requestAnimationFrame(draw);
+    }
+
+    setup();
+    draw();
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener("resize", onWindowResize);
+</script>
+
+</body>
+</html>
