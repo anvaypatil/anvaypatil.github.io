@@ -9,15 +9,8 @@ var circles = [];
 
 var colorPicker = function () {
     var colors = [
-        '#ffffff',
-        "#d7eb91",
-        '#ffffff',
-        "#a789ea",
-        '#ffffff',
-        "#6cc4ac",
-        '#ffffff',
-        "#3398a5",
-        '#ffffff',
+        '#FFF',
+        '#FFF',
     ];
     var index = 0;
 
@@ -54,6 +47,9 @@ function addClickListeners() {
 };
 
 function handleEvent(e) {
+    if(e.target.nodeName === 'A' || e.target.nodeName === 'SPAN' ){
+        return
+    }
     if (e.touches) {
         e.preventDefault();
         e = e.touches[0];
@@ -198,7 +194,7 @@ var resizeCanvas = function () {
 
 function handleInactiveUser() {
     var inactive = setTimeout(function () {
-        fauxClick(cW / 2, cH / 2);
+  //      fauxClick(cW / 2, cH / 2);
     }, 2000);
 
     function clearInactiveTimeout() {
