@@ -1,9 +1,146 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="//cdn.jsdelivr.net/gh/devicons/devicon@v2.11.0/devicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <style>
-        * {
-            font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-            margin: 0;
+        @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400';
+
+        .firstinfo, .badgescard, body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: "Open Sans", sans-serif;
+            width: 100%;
+            min-height: 100%;
+            background: #009688;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+
+        .content {
+            position: relative;
+            animation: animatop 0.9s cubic-bezier(0.425, 1.14, 0.47, 1.125) forwards;
+        }
+
+        .card {
+            width: 500px;
+            min-height: 100px;
+            padding: 20px;
+            height: 170px;
+            border-radius: 3px;
+            background-color: white;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:after {
+            content: "";
+            display: block;
+            width: 190px;
+            height: 300px;
+            background: #75a05f;
+            position: absolute;
+            animation: rotatemagic 0.75s cubic-bezier(0.425, 1.04, 0.47, 1.105) 1s both;
+        }
+
+        .badgescard {
+            padding: 10px 20px;
+            border-radius: 3px;
+            background-color: #ECECEC;
+            width: 480px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            z-index: -1;
+            left: 10px;
+            bottom: 10px;
+            animation: animainfos 0.5s cubic-bezier(0.425, 1.04, 0.47, 1.105) 0.75s forwards;
+        }
+
+        .badgescard span {
+            font-size: 1.6em;
+            margin: 0px 6px;
+            opacity: 0.6;
+        }
+
+        .firstinfo {
+            flex-direction: row;
+            z-index: 2;
+            position: relative;
+        }
+
+        .firstinfo img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+        }
+
+        .firstinfo .profileinfo {
+            padding: 0px 20px;
+        }
+
+        .firstinfo .profileinfo h1 {
+            font-size: 1.8em;
+        }
+
+        .firstinfo .profileinfo h3 {
+            font-size: 16px;
+            color: #009688;
+            font-style: italic;
+            padding-block: 5px;
+        }
+
+        .firstinfo .profileinfo p.bio {
+            padding: 10px 0px;
+            color: #5A5A5A;
+            line-height: 1.2;
+            font-style: initial;
+        }
+
+        @keyframes animatop {
+            0% {
+                opacity: 0;
+                bottom: -500px;
+            }
+            100% {
+                opacity: 1;
+                bottom: 0px;
+            }
+        }
+
+        @keyframes animainfos {
+            0% {
+                bottom: 10px;
+            }
+            100% {
+                bottom: -42px;
+            }
+        }
+
+        @keyframes rotatemagic {
+            0% {
+                opacity: 0;
+                transform: rotate(0deg);
+                top: -24px;
+                left: -253px;
+            }
+            100% {
+                transform: rotate(-30deg);
+                top: -24px;
+                left: -78px;
+            }
         }
 
         #particle-canvas {
@@ -11,145 +148,53 @@
             height: 100vh;
             background-color: #f1eded;
             vertical-align: middle;
-        }
-
-        .blue {
-            color: #29b6f6;
-        }
-
-        .green {
-            color: #9ccc65;
-        }
-
-        .purple {
-            color: #ba68c8;
-        }
-
-        .cyan {
-            color: #4dd0e1;
-        }
-
-        .red {
-            color: #ef5350;
-        }
-
-        .content {
-            height: 100vh;
             position: absolute;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            z-index: -2;
         }
 
-        .card {
-            perspective: 150rem;
-            height: 20rem;
-            width: 30rem;
-            color:white;
-            position: relative;
+        .other-links{
+            float: right;
         }
 
-        .card__side {
-            height: 15rem;
-            transition: all 0.8s ease;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: auto;
-            width: 30rem;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        .port-link{
+            text-decoration: none;
+            padding-inline: 5px;
+            color: brown;
+            cursor: pointer;
         }
 
-        .card__side--front {
-            background-color: #1c1c1c;
-        }
-
-        .card__side--back {
-            transform: rotateY(180deg);
-            background-color: #1c1c1c;
-        }
-
-        .card:hover .card__side--front {
-            transform: rotateY(-180deg);
-        }
-
-        .card:hover .card__side--back {
-            transform: rotateY(0deg);
-        }
-
-        .card__cont {
-            height: 15rem;
-            background-color: #1c1c1c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card__cta {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            color: white;
-        }
-
-        .card__cta p {
-            margin-left: 1rem;
-        }
-
-        .card__cta p > .space {
-            margin-left: 2rem;
-        }
     </style>
+    <title>Hello & Welcome</title>
 </head>
 
 <body translate="no">
 <div class="content">
     <div class="card">
-        <div class="card__side card__side--front">
-            <!-- Front Content -->
-            <div class="card__cont">
-                <span class="blue">console.log</span>
-                <span>(<span class="green">'Hello and Welcome.!'</span>)</span>
-            </div>
-        </div>
-        <div class="card__side card__side--back">
-            <!-- Back Content -->
-            <div class="card__cta">
-                <p><span class="purple">const</span> aboutMe <span class="cyan">=</span> {
-                    <br>
-                    <span class="space red">name</span>
-                    <span class="cyan">:</span> <span class="green">'Anvay P'</span>,
-                    <br>
-                    <span class="space red">github</span>
-                    <span class="cyan">:</span> <a href="http://github.com/anvaypatil" target="_blank"
-                                                   class="bt-icon icon-star"><span
-                            class="blue">'github/anvayp'</span></a>',
-                    <br>
-                    <span class="space red">blog</span>
-                    <span class="cyan">:</span>
-                    <a href="https://anvay.dev/blog/" target="_blank" class="bt-icon icon-star"><span
-                            class="blue">'/my/blog/'</span></a>',
-                    <br>
-                    <span class="space red">talks</span><span class="cyan">:</span>
-                    <a href="https://anvay.dev/talks/" target="_blank" class="bt-icon icon-star"><span
-                            class="blue">'/my/talks/'</span></a>',
-                    <br>
-                    };
+        <div class="firstinfo">
+            <img src="img/4.png">
+            <div class="profileinfo">
+                <h1>Anvay P</h1>
+                <p class="bio">Musician by heart & <br/> Computer Programmer by profession
                 </p>
             </div>
         </div>
+        <div class="other-links">
+            <a href="https://anvay.dev/blog/" target="_blank" class="port-link">blog</a>
+            <a href="https://anvay.dev/talks/" target="_blank" class="port-link">talks</a>
+        </div>
+    </div>
+    <div class="badgescard">
+        <span class="devicon-rust-plain" title="Rust"></span>
+        <span class="devicon-java-plain" title="Java 8"></span>
+        <span class="devicon-python-plain" title="Python"></span>
+        <span class="devicon-go-plain" title="Golang"></span>
+        <span class="devicon-javascript-plain" title="Javascript"></span>
+        <span class="devicon-html5-plain" title="Html 5"></span>
+        <span class="devicon-angularjs-plain" title="Angular"></span>
+        <span class="devicon-react-original" title="React"></span>
     </div>
 </div>
 <canvas id="particle-canvas"></canvas>
-<script src="js/particle.js">
-</script>
+<script src="js/particle.js"></script>
 </body>
-
 </html>
